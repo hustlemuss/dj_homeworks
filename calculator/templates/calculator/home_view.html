@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Главная страница</title>
+</head>
+<body>
+    <h1>Добро пожаловать в сервис рецептов!</h1>
+    <p>Выберите один из доступных рецептов:</p>
+    <ul>
+        {% for recipe in recipes %}
+        <li><a href="{% url 'recipe' recipe %}">{{ recipe }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>Или выберите рецепт и укажите количество порций:</h2>
+    <form action="/" method="get">
+        <label for="dish">Рецепт:</label>
+        <select name="dish" id="dish">
+            {% for recipe in recipes %}
+            <option value="{{ recipe }}">{{ recipe }}</option>
+            {% endfor %}
+        </select>
+        <label for="servings">Количество порций:</label>
+        <input type="number" name="servings" id="servings" min="1" value="1">
+        <button type="submit">Посмотреть рецепт</button>
+    </form>
+
+    {% if adjusted_recipe %}
+    <h2>Рецепт для {{ selected_dish }} на {{ servings }} порций:</h2>
+    <ul>
+        {% for ingredient, amount in adjusted_recipe.items %}
+        <li>{{ ingredient }}: {{ amount }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
